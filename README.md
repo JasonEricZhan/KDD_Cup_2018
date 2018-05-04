@@ -1,6 +1,6 @@
 # KDD_Cup_2018
 
-Host by ACM
+Hosted by ACM  
 
 This is from: https://biendata.com/competition/kdd_2018/
 
