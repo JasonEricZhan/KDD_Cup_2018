@@ -183,7 +183,7 @@ def pollution_extractor(MAX_time_step=_Eric_created_):
 
 
 MAX_time_step=48
-def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1):
+def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False):
      s0 = Input(shape=(128,), name='hidden_state')
      #c0 = Input(shape=(6,), name='c0')
      s=s0
@@ -198,13 +198,15 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1):
      #review_encoder=TimeDistributed(Dense(64))(review_encoder)
 
      comb=concatenate([review_encoder,l_Con_main,AQI_dist_1D,Grid_dist_1D])
-     skipconnect=comb
+     if skip_connected:
+        skipconnect=comb
      comb= Conv1D(filters=200, kernel_size=16, strides=1, padding='same',activation='elu')(comb)
      comb= Conv1D(filters=200, kernel_size=8, strides=1, padding='same',activation='elu')(comb)
      comb= Conv1D(filters=128, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
      #comb= Conv1D(filters=64, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
      comb=MaxPooling1D(2,padding='same',strides=1)(comb)
-     comb=concatenate([comb,skipconnect])
+     if skip_connected:
+        comb=concatenate([comb,skipconnect])
      comb=BatchNormalization()(comb)
 
      comb_gru  = Bidirectional(CuDNNGRU(128,return_sequences=True))(comb)
