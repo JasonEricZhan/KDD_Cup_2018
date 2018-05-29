@@ -115,7 +115,7 @@ def smape_loss_keras(true, predicted):
     Differentiable SMAPE loss
     :param true: Truth values
     :param predicted: Predicted values
-    :return:
+    :return: 6 columns' mean smape_loss
     """
     epsilon=1e-8
     nominater=K.abs(predicted-true)
