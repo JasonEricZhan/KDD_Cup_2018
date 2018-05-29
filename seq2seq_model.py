@@ -169,7 +169,7 @@ def mapping_extractor(MAX_time_step=_Eric_created_):
      Grid_dist_1D=MaxPooling1D(2,padding='same',strides=1)(Grid_dist_1D)
      return AQI_dist_input,Grid_dist_input,AQI_dist_1D,Grid_dist_1D
 
-def pollution_extractor(MAX_time_step=60):
+def pollution_extractor(MAX_time_step=_Eric_created_):
      pollution_input = Input(shape=(MAX_time_step,15), dtype='float32',name='main_input')
      l_Con_main = Conv1D(filters=64, kernel_size=8, strides=1, padding='same',activation='elu')(pollution_input)
      l_Con_main = Conv1D(filters=32, kernel_size=3, strides=1, padding='same',activation='elu')(l_Con_main)
