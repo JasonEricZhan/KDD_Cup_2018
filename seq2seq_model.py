@@ -216,28 +216,21 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1):
              comb= AttentionWithContext()(comb_gru)
              repeator = RepeatVector(MAX_time_step)(comb)
              s1=repeator
-             #s1,_= CuDNNGRU(128,return_state=True,return_sequences=True)(repeator,initial_state=[s])
-             s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s])
-             output=s2   #c
+             s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s])  #feed autocorrelation
+             output=s2   
              prev=s2
              output=Dense(64,activation='relu')(output)
              output=Dropout(last_drop_out_rate)(output)
              output=Dense(6,activation='relu')(output)
              prev=RepeatVector(MAX_time_step)(prev)
-        #preds = Bidirectional(GRU(8,activation='tanh', return_sequences=True))(decode )
           else:
              comb=concatenate([comb_gru ,prev])
-        #comb=concatenate([comb_init])
              comb= AttentionWithContext()(comb_gru)
              repeator = RepeatVector(MAX_time_step)(comb)
              s1=repeator
-        #repeator =concatenate([prev,repeator])
-             #s1,_= CuDNNGRU(128,return_state=True,return_sequences=True)(repeator,initial_state=[s2])
              s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s2])
-             output=s2  #c
+             output=s2  
              prev=s2
-        #decode = GRU(64,activation='tanh', return_state = True)(repeator)
-        #output=prev=decode
              output=Dense(64,activation='relu')(output)
              output=Dropout(last_drop_out_rate)(output)
              output=Dense(6,activation='relu')(output)
