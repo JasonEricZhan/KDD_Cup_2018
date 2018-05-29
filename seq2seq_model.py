@@ -185,11 +185,7 @@ def pollution_extractor(MAX_time_step=_Eric_created_):
 MAX_time_step=48
 def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False):
      s0 = Input(shape=(128,), name='hidden_state')
-     #c0 = Input(shape=(6,), name='c0')
      s=s0
-     #c=c0
-     #s=RepeatVector(ts)(s)
-     #c=RepeatVector(ts)(c)
         
      review_input,review_encoder=weather_model(station_num=35,MAX_time_step=ts,grid_station_num=100,feature_num=20)
      AQI_dist_input,Grid_dist_input,AQI_dist_1D,Grid_dist_1D=mapping_extractor(MAX_time_step=ts)
