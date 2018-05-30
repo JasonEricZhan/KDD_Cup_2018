@@ -183,7 +183,7 @@ def pollution_extractor(MAX_time_step=_Eric_created_,feature_num=15):
 
 
 MAX_time_step=48
-def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False):
+def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=True):
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
         
@@ -194,15 +194,25 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False)
      #review_encoder=TimeDistributed(Dense(64))(review_encoder)
 
      comb=concatenate([review_encoder,l_Con_main,AQI_dist_1D,Grid_dist_1D])
-     if skip_connected:
-        skipconnect=comb
-     comb= Conv1D(filters=200, kernel_size=16, strides=1, padding='same',activation='elu')(comb)
-     comb= Conv1D(filters=200, kernel_size=8, strides=1, padding='same',activation='elu')(comb)
-     comb= Conv1D(filters=128, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
+    
+     if multi_length_cnn:
+        long_time= Conv1D(filters=200, kernel_size=16, strides=1, padding='same',activation='elu')(comb)
+        mid_time= Conv1D(filters=200, kernel_size=8, strides=1, padding='same',activation='elu')(comb)
+        short_time= Conv1D(filters=200, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
+        comb=concatenate([long_time,mid_time,short_time])
+        comb= Conv1D(filters=256, kernel_size=8, strides=1, padding='same',activation='elu')(comb)
+        comb= Conv1D(filters=128, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
+        comb=MaxPooling1D(2,padding='same',strides=1)(comb)
+     else:
+        if skip_connected:
+            skipconnect=comb
+        comb= Conv1D(filters=200, kernel_size=16, strides=1, padding='same',activation='elu')(comb)
+        comb= Conv1D(filters=200, kernel_size=8, strides=1, padding='same',activation='elu')(comb)
+        comb= Conv1D(filters=128, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
      #comb= Conv1D(filters=64, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
-     comb=MaxPooling1D(2,padding='same',strides=1)(comb)
-     if skip_connected:
-        comb=concatenate([comb,skipconnect])
+        comb=MaxPooling1D(2,padding='same',strides=1)(comb)
+        if skip_connected:
+            comb=concatenate([comb,skipconnect])
      comb=BatchNormalization()(comb)
 
      comb_gru  = Bidirectional(CuDNNGRU(128,return_sequences=True))(comb)
