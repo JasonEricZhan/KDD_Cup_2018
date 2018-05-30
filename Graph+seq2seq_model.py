@@ -183,7 +183,8 @@ def pollution_extractor(MAX_time_step=_Eric_created_,feature_num=15):
 
 
 MAX_time_step=48
-def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=False):
+def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=False
+                   adding_another_drop_out=False):
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
         
@@ -227,7 +228,8 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s])  #feed autocorrelation
              output=s2   
              prev=s2
-             output=Dropout(last_drop_out_rate)(output)
+             if adding_another_drop_out:
+               output=Dropout(last_drop_out_rate)(output)
              output=Dense(64,activation='relu')(output)
              output=Dropout(last_drop_out_rate)(output)
              output=Dense(6,activation='relu')(output)
@@ -240,7 +242,8 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s2])
              output=s2  
              prev=s2
-             output=Dropout(last_drop_out_rate)(output)
+             if adding_another_drop_out:
+               output=Dropout(last_drop_out_rate)(output)
              output=Dense(64,activation='relu')(output)
              output=Dropout(last_drop_out_rate)(output)
              output=Dense(6,activation='relu')(output)
