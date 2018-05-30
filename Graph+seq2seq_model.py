@@ -183,7 +183,7 @@ def pollution_extractor(MAX_time_step=_Eric_created_,feature_num=15):
 
 
 MAX_time_step=48
-def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=True):
+def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=False):
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
         
