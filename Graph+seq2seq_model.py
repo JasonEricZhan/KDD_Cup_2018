@@ -206,7 +206,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
      else:
         if skip_connected:
             skipconnect=comb
-        comb= Conv1D(filters=200, kernel_size=9, strides=1, padding='same',activation='elu')(comb)
+        comb= Conv1D(filters=200, kernel_size=12, strides=1, padding='same',activation='elu')(comb)
         comb= Conv1D(filters=200, kernel_size=6, strides=1, padding='same',activation='elu')(comb)
         comb= Conv1D(filters=128, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
      #comb= Conv1D(filters=64, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
