@@ -151,19 +151,19 @@ def weather_model(MAX_time_step=_Eric_created_,grid_station_num=100,feature_num=
      return review_input,review_encoder
 
 
-def mapping_extractor(aqi_station_num=35,grid_station_num=100,MAX_time_step=_Eric_created_):
+def mapping_extractor(aqi_station_num=35,grid_station_num=100,MAX_time_step=_Eric_created_,embed_activation='linear'):
      AQI_dist_input = Input(shape=(aqi_station_num,), dtype='float32',name='AQI_dist_input')
      AQI_dist_1D=RepeatVector(MAX_time_step)(AQI_dist_input)
-     AQI_dist_1D=TimeDistributed(Dense(30))(AQI_dist_1D)
-     AQI_dist_1D=TimeDistributed(Dense(25))(AQI_dist_1D)
+     AQI_dist_1D=TimeDistributed(Dense(30,activation=embed_activation))(AQI_dist_1D)
+     AQI_dist_1D=TimeDistributed(Dense(25,activation=embed_activation))(AQI_dist_1D)
      AQI_dist_1D= Conv1D(filters=24, kernel_size=8, strides=1, padding='same',activation='elu')(AQI_dist_1D)
      AQI_dist_1D= Conv1D(filters=16, kernel_size=3, strides=1, padding='same',activation='elu')(AQI_dist_1D)
      AQI_dist_1D=MaxPooling1D(2,padding='same',strides=1)(AQI_dist_1D)
 
      Grid_dist_input = Input(shape=(grid_station_num,), dtype='float32',name='Grid_dist_input')
      Grid_dist_1D=RepeatVector(MAX_time_step)(Grid_dist_input)
-     Grid_dist_1D=TimeDistributed(Dense(450))(Grid_dist_1D)
-     Grid_dist_1D=TimeDistributed(Dense(300))(Grid_dist_1D)
+     Grid_dist_1D=TimeDistributed(Dense(450,activation=embed_activation))(Grid_dist_1D)
+     Grid_dist_1D=TimeDistributed(Dense(300,activation=embed_activation))(Grid_dist_1D)
      Grid_dist_1D= Conv1D(filters=256, kernel_size=8, strides=1, padding='same',activation='elu')(Grid_dist_1D)
      Grid_dist_1D= Conv1D(filters=100, kernel_size=3, strides=1, padding='same',activation='elu')(Grid_dist_1D)
      Grid_dist_1D=MaxPooling1D(2,padding='same',strides=1)(Grid_dist_1D)
