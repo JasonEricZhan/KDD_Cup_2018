@@ -206,8 +206,8 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
      else:
         if skip_connected:
             skipconnect=comb
-        comb= Conv1D(filters=200, kernel_size=16, strides=1, padding='same',activation='elu')(comb)
-        comb= Conv1D(filters=200, kernel_size=8, strides=1, padding='same',activation='elu')(comb)
+        comb= Conv1D(filters=200, kernel_size=9, strides=1, padding='same',activation='elu')(comb)
+        comb= Conv1D(filters=200, kernel_size=6, strides=1, padding='same',activation='elu')(comb)
         comb= Conv1D(filters=128, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
      #comb= Conv1D(filters=64, kernel_size=3, strides=1, padding='same',activation='elu')(comb)
         comb=MaxPooling1D(2,padding='same',strides=1)(comb)
@@ -227,6 +227,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s])  #feed autocorrelation
              output=s2   
              prev=s2
+             output=Dropout(last_drop_out_rate)(output)
              output=Dense(64,activation='relu')(output)
              output=Dropout(last_drop_out_rate)(output)
              output=Dense(6,activation='relu')(output)
@@ -239,6 +240,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s2])
              output=s2  
              prev=s2
+             output=Dropout(last_drop_out_rate)(output)
              output=Dense(64,activation='relu')(output)
              output=Dropout(last_drop_out_rate)(output)
              output=Dense(6,activation='relu')(output)
