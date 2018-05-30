@@ -136,7 +136,7 @@ def smape_loss_keras(true, predicted):
     return (s1+s2+s3+s4+s5+s6)/6
     
 #for beijin
-def weather_model(station_num=35,MAX_time_step=_Eric_created_,grid_station_num=100,feature_num=20):
+def weather_model(MAX_time_step=_Eric_created_,grid_station_num=100,feature_num=20):
      sub_input = Input(shape=(grid_station_num,feature_num), dtype='float32')
      l_Con_sub = Conv1D(filters=128, kernel_size=8, strides=1, padding='same',activation='elu')(sub_input)
      l_Con_sub = Conv1D(filters=64, kernel_size=3, strides=1, padding='same',activation='elu')(l_Con_sub)
@@ -151,8 +151,8 @@ def weather_model(station_num=35,MAX_time_step=_Eric_created_,grid_station_num=1
      return review_input,review_encoder
 
 
-def mapping_extractor(MAX_time_step=_Eric_created_):
-     AQI_dist_input = Input(shape=(35,), dtype='float32',name='AQI_dist_input')
+def mapping_extractor(aqi_station_num=35,grid_station_num=100,MAX_time_step=_Eric_created_):
+     AQI_dist_input = Input(shape=(aqi_station_num,), dtype='float32',name='AQI_dist_input')
      AQI_dist_1D=RepeatVector(MAX_time_step)(AQI_dist_input)
      AQI_dist_1D=TimeDistributed(Dense(30))(AQI_dist_1D)
      AQI_dist_1D=TimeDistributed(Dense(25))(AQI_dist_1D)
@@ -160,7 +160,7 @@ def mapping_extractor(MAX_time_step=_Eric_created_):
      AQI_dist_1D= Conv1D(filters=16, kernel_size=3, strides=1, padding='same',activation='elu')(AQI_dist_1D)
      AQI_dist_1D=MaxPooling1D(2,padding='same',strides=1)(AQI_dist_1D)
 
-     Grid_dist_input = Input(shape=(651,), dtype='float32',name='Grid_dist_input')
+     Grid_dist_input = Input(shape=(grid_station_num,), dtype='float32',name='Grid_dist_input')
      Grid_dist_1D=RepeatVector(MAX_time_step)(Grid_dist_input)
      Grid_dist_1D=TimeDistributed(Dense(450))(Grid_dist_1D)
      Grid_dist_1D=TimeDistributed(Dense(300))(Grid_dist_1D)
