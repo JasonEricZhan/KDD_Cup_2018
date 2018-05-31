@@ -178,12 +178,14 @@ def pollution_extractor(MAX_time_step=_Eric_created_,feature_num=15):
 
 
 
-
-
+     
+    
+    
+    
 
 
 MAX_time_step=48
-def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=False
+def main_model_att(ts=MAX_time_step,Fc_drop_out_rate=0.1,last_drop_out_rate=0.1,skip_connected=False,multi_length_cnn=False
                    adding_another_drop_out=False):
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
@@ -191,9 +193,14 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
      last0= Input(shape=(51,), name='last_state') #feed autocorrelation and the last element in the last sequence (t-1)
      #Dimension is 6*6+15, column number X number of different type autocorrelation
      last=Dense(512,activation='selu')(last0)
+     last=Dropout(Fc_drop_out_rate)(last)
      last=Dense(256,activation='selu')(last)
+     last=Dropout(Fc_drop_out_rate)(last)
      last=Dense(128,activation='selu')(last)
+     last=Dropout(Fc_drop_out_rate)(last)
+     last=Dense(64,activation='selu')(last)
      last=RepeatVector(MAX_time_step)(last)
+
         
      review_input,review_encoder=weather_model(aqi_station_num=35,MAX_time_step=ts,grid_station_num=100,feature_num=20)
      AQI_dist_input,Grid_dist_input,AQI_dist_1D,Grid_dist_1D=mapping_extractor(MAX_time_step=ts)
