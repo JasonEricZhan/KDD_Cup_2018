@@ -188,9 +188,9 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
     
-     last= Input(shape=(51,), name='last_state') #feed autocorrelation and the last element in the last sequence (t-1)
+     last0= Input(shape=(51,), name='last_state') #feed autocorrelation and the last element in the last sequence (t-1)
      #Dimension is 6*6+15, column number X number of different type autocorrelation
-     last=Dense(512,activation='selu')(last)
+     last=Dense(512,activation='selu')(last0)
      last=Dense(256,activation='selu')(last)
      last=Dense(128,activation='selu')(last)
      last=RepeatVector(MAX_time_step)(last)
@@ -257,7 +257,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              prev=RepeatVector(MAX_time_step)(prev)
         
           outputs.append(output)
-     model = Model([review_input,pollution_input,AQI_dist_input,Grid_dist_input,last,s0], outputs)
+     model = Model([review_input,pollution_input,AQI_dist_input,Grid_dist_input,last0,s0], outputs)
      print(model.summary())
      return model
 
