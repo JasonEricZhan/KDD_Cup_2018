@@ -257,7 +257,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              prev=RepeatVector(MAX_time_step)(prev)
         
           outputs.append(output)
-     model = Model([review_input,pollution_input,AQI_dist_input,Grid_dist_input,s0], outputs)
+     model = Model([review_input,pollution_input,AQI_dist_input,Grid_dist_input,last,s0], outputs)
      print(model.summary())
      return model
 
