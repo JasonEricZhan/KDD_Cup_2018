@@ -197,8 +197,8 @@ def main_model_att(ts=MAX_time_step,Fc_drop_out_rate=0.1,last_drop_out_rate=0.1,
      last=Dense(256,activation='selu')(last)
      last=Dropout(Fc_drop_out_rate)(last)
      last=Dense(128,activation='selu')(last)
-     last=Dropout(Fc_drop_out_rate)(last)
-     last=Dense(64,activation='selu')(last)
+     #last=Dropout(Fc_drop_out_rate)(last)
+     #last=Dense(64,activation='selu')(last)
      last=RepeatVector(MAX_time_step)(last)
 
         
