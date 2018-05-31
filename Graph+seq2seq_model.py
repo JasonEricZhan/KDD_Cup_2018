@@ -187,6 +187,12 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
                    adding_another_drop_out=False):
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
+    
+     last= Input(shape=(128,), name='last_state')
+     last=Dense(512,activation='selu')(last)
+     last=Dense(256,activation='selu')(last)
+     last=Dense(128,activation='selu')(last)
+     last=RepeatVector(MAX_time_step)(last)
         
      review_input,review_encoder=weather_model(aqi_station_num=35,MAX_time_step=ts,grid_station_num=100,feature_num=20)
      AQI_dist_input,Grid_dist_input,AQI_dist_1D,Grid_dist_1D=mapping_extractor(MAX_time_step=ts)
@@ -225,7 +231,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
              comb= AttentionWithContext()(comb_gru)
              repeator = RepeatVector(MAX_time_step)(comb)
              s1=repeator
-             s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s])  #feed autocorrelation
+             s2,_= CuDNNGRU(128,return_state=True)(s1,initial_state=[s])  #feed zero or other special information
              output=s2   
              prev=s2
              if adding_another_drop_out:
