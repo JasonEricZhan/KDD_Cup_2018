@@ -189,6 +189,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
      s=s0
     
      last= Input(shape=(51,), name='last_state') #feed autocorrelation and the last element in the last sequence (t-1)
+     #Dimension is 6*6+15
      last=Dense(512,activation='selu')(last)
      last=Dense(256,activation='selu')(last)
      last=Dense(128,activation='selu')(last)
