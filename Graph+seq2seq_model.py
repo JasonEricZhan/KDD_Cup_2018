@@ -1,7 +1,7 @@
 from keras.preprocessing.sequence import pad_sequences
-from keras.layers import Dense, Input, LSTM, Embedding,Dropout,Activation,GRU,Conv1D,CuDNNGRU,CuDNNLSTM
-from keras.layers import SpatialDropout1D,MaxPool1D,GlobalAveragePooling1D,RepeatVector,Add,Reshape,MaxPooling1D
-from keras.layers import Bidirectional, GlobalMaxPool1D,BatchNormalization,concatenate,TimeDistributed,Merge,Flatten
+from keras.layers import Dense, Input,Dropout,Activation,GRU,Conv1D,CuDNNGRU
+from keras.layers import SpatialDropout1D,MaxPool1D,RepeatVector,MaxPooling1D
+from keras.layers import Bidirectional,BatchNormalization,concatenate,TimeDistributed
 from keras.models import Model
 from keras import initializers, regularizers, constraints, optimizers, layers
 from keras.optimizers import Adam,SGD,Nadam
@@ -188,7 +188,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
      s0 = Input(shape=(128,), name='hidden_state')
      s=s0
     
-     last= Input(shape=(128,), name='last_state')
+     last= Input(shape=(128,), name='last_state') #feed autocorrelation and the last element in the last sequence (t-1)
      last=Dense(512,activation='selu')(last)
      last=Dense(256,activation='selu')(last)
      last=Dense(128,activation='selu')(last)
