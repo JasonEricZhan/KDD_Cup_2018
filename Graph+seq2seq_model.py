@@ -200,7 +200,7 @@ def main_model_att(ts=MAX_time_step,last_drop_out_rate=0.1,skip_connected=False,
     
      #review_encoder=TimeDistributed(Dense(64))(review_encoder)
 
-     comb=concatenate([review_encoder,l_Con_main,AQI_dist_1D,Grid_dist_1D])
+     comb=concatenate([review_encoder,l_Con_main,AQI_dist_1D,Grid_dist_1D,last])
     
      if multi_length_cnn:
         long_time= Conv1D(filters=200, kernel_size=16, strides=1, padding='same',activation='elu')(comb)
