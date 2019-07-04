@@ -6,7 +6,7 @@ This is from: https://biendata.com/competition/kdd_2018/
 
  The below link of git page is for interactive Exploratory Data Analysis:  
  (some libraries must run on project pages, on ipython notebook will not work, if waiting too long, please download it)  
- https://jasonericzhan.github.io/KDD_Cup_2018/master/Deep_EDA.html
+ https://jasonericzhan.github.io/KDD_Cup_2018//Deep_EDA.html
 
 
 ## Model inspired by:  
