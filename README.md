@@ -4,8 +4,7 @@ Hosted by ACM
 
 This is from: https://biendata.com/competition/kdd_2018/
 
- The below link of git page is for interactive Exploratory Data Analysis:  
- https://jasonericzhan.github.io/KDD_Cup_2018//Deep_EDA.html
+ The below link of git page is for interactive Exploratory Data Analysis, (but in case of too long some comments are skipped):  https://jasonericzhan.github.io/KDD_Cup_2018//Deep_EDA.html
 
 
 ## Model inspired by:  
